@@ -33,4 +33,12 @@ public class CredentialsServiceImpl implements CredentialsService{
         Credentials credResult = credentialsRepo.findByUserUserId(id);
         return (credResult != null)? credResult.getCredentialsId() : 0;
     }
+
+	@Override
+	public String changePassword(int id, String password) {
+		Credentials credResult = credentialsRepo.findByUserUserId(id);
+		String answer = "Password Changed.";
+		credResult.setPassword(password);
+		return answer;
+	}
 }

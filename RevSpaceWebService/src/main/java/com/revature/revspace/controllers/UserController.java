@@ -7,10 +7,12 @@ import com.revature.revspace.services.UserService;
 import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -133,5 +135,16 @@ public class UserController
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         return true;
+    }
+    
+    @PostMapping(value="/users/password")
+    public ResponseEntity<User> changePassword(@RequestBody LinkedHashMap bodyMap){
+    	User user = this.us.getLoggedInUser();
+    	if(cs.getByEmail(bodyMap.get("email").toString()).getPassword().equals(bodyMap.get("oldPassword"))) {
+    		cs.changePassword(Integer.parseInt(bodyMap.get("id").toString()), bodyMap.get("newPassword").toString());
+    		return ResponseEntity.status(201).body(user);
+    	}else {
+    		return ResponseEntity.badRequest().build();
+    	}    	
     }
 }
