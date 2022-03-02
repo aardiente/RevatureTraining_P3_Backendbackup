@@ -1,13 +1,23 @@
 package com.revature.revspace.models;
 
 
+import java.util.List;
+import java.util.Objects;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="users")
@@ -44,6 +54,10 @@ public class User
 
 	@Column(name="aboutme", length=1000, nullable = false)
 	private String aboutMe;
+	
+	@OneToMany(mappedBy="userReceive", fetch=FetchType.EAGER)
+	@JsonBackReference
+	private List<Notifications> notifications;
 
 	public User()
 	{
