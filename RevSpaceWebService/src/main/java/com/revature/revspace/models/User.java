@@ -6,7 +6,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -44,6 +51,14 @@ public class User
 
 	@Column(name="aboutme", length=1000, nullable = false)
 	private String aboutMe;
+	
+	@ManyToMany
+    @JoinTable(name = "followers", joinColumns = @JoinColumn(name = "followerId"), inverseJoinColumns = @JoinColumn(name = "userId"))
+    private List<User> followers;
+    
+    @ManyToMany
+    @JoinTable(name = "followers", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "followerId"))
+    private List<User> following;
 
 	public User()
 	{
