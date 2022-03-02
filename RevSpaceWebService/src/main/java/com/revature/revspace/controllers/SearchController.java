@@ -13,13 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.revspace.models.User;
 import com.revature.revspace.services.UserService;
+import com.revature.revspace.services.UserServiceImpl;
 
 @RestController
-//@RequestMapping(value = "/users")
-//@CrossOrigin(origins = "*")
+@RequestMapping(value = "/users")
+@CrossOrigin(origins = "*")
 public class SearchController {
 	
 	private UserService uServ;
+	
+	private UserServiceImpl uServI;
 	
 	public SearchController() {
 		// TODO Auto-generated constructor stub
@@ -31,13 +34,14 @@ public class SearchController {
 		this.uServ = uServ;
 	}
 	
-	@GetMapping("/search/{email}")
-	public ResponseEntity<User> findUserByEmail(@PathVariable("email") String email){
+	@GetMapping("/search/email")
+	public ResponseEntity<User> findUserByEmail(@RequestParam("email") String email){
 		return ResponseEntity.status(200).body(this.uServ.getUserByEmail(email));
 	}
 	
 	@GetMapping("/search/name")
-	public ResponseEntity<User> findUserByName(@RequestParam("firstname")String firstname, @RequestParam("lastname")String lastname){
+	public ResponseEntity<User> findUserByName(@RequestParam("firstname") String firstname, @RequestParam("lastname") String lastname){
+//		String[] userName = name.split("\\s+");
 		return ResponseEntity.status(200).body(this.uServ.getUserByName(firstname, lastname));
 	}
 	
