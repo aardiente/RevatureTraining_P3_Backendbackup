@@ -13,11 +13,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.revature.revspace.util.UserSerializer;
+
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name="users")
+@JsonSerialize(using = UserSerializer.class)
 public class User
 {
 	@Id
