@@ -107,13 +107,6 @@ public class UserController
                 throw new ResponseStatusException(HttpStatus.CONFLICT);
             }
         }
-        // if safeId "is in" lfUser, end logic....
-        //if safeId "doesn't exist" in lfUser...add then redo logic
-        if(lfUser.contains(safeId))
-        		{
-        	      
-        }
-        		 
         lfUser.add(followUser);
         
         loggedUser.setFollowing(lfUser);      
