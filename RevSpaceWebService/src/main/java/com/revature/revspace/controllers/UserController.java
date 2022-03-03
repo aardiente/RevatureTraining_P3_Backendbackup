@@ -88,23 +88,21 @@ public class UserController
     }
     
     @PutMapping(value="/follow/{fId}")
-    public User followUser(@PathVariable("fId") String lId, @RequestBody User loggedUser) {
-    	List<User> lfUser = new ArrayList<>();
-    	User followUser = null;
-    	User resultUser;
+    public User followUser(@PathVariable("fId") String fId, @RequestBody User loggedUser) {
+    	List<User> lfUser = loggedUser.getFollowing();
+    	User resultUser; 
         //parsing int from string, can(should) be done somewhere else
         int safeId;
         try
         {
-            safeId = Integer.parseInt(lId);
+            safeId = Integer.parseInt(fId);
         }catch (NumberFormatException e)
         {
             safeId = 0;
         }
-        followUser.setUserId(safeId);
-        lfUser = loggedUser.getFollowing();
+    	User followUser = us.get(safeId);
         for(User verify : lfUser) {
-        	if(followUser== verify)
+        	if(followUser.getUserId() == verify.getUserId())
             {
                 throw new ResponseStatusException(HttpStatus.CONFLICT);
             }
