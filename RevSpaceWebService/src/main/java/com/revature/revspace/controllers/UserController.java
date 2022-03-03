@@ -102,7 +102,7 @@ public class UserController
         }
     	User followUser = us.get(safeId);
         for(User verify : lfUser) {
-        	if(followUser== verify)
+        	if(followUser.getUserId() == verify.getUserId())
             {
                 throw new ResponseStatusException(HttpStatus.CONFLICT);
             }
