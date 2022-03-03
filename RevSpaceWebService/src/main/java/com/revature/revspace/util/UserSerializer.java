@@ -38,8 +38,8 @@ public class UserSerializer extends StdSerializer<User> {
 			for(User field : value.getFollowers()) {
 				gen.writeStartObject();
 				gen.writeNumberField("userId", field.getUserId());
-				gen.writeStringField("firstName", value.getFirstName());
-				gen.writeStringField("lasstName", value.getLastName());
+				gen.writeStringField("firstName", field.getFirstName());
+				gen.writeStringField("lastName", field.getLastName());
 				gen.writeEndObject();
 			}
 		}
@@ -49,8 +49,8 @@ public class UserSerializer extends StdSerializer<User> {
 			for(User field : value.getFollowing()) {
 				gen.writeStartObject();
 				gen.writeNumberField("userId", field.getUserId());
-				gen.writeStringField("firstName", value.getFirstName());
-				gen.writeStringField("lasstName", value.getLastName());
+				gen.writeStringField("firstName", field.getFirstName());
+				gen.writeStringField("lastName", field.getLastName());
 				gen.writeEndObject();
 			}
 		}
