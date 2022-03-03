@@ -14,6 +14,6 @@ public interface UserService extends CrudService<User, Integer, UserRepo>
 	 */
 	public User getLoggedInUser();
 	public List<User> getLoggedFollowers();
-	public List<User> getFollowing();
+	public List<User> getLoggedFollowing();
 	public List<User> getViewFollowers(User user);
 }
