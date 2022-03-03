@@ -244,11 +244,8 @@ public class User
 				+ ", birthday=" + birthday + ", revatureJoinDate=" + revatureJoinDate + ", githubUsername="
 				+ githubUsername + ", title=" + title + ", location=" + location + ", aboutMe=" + aboutMe
 				+ ", followers=" + followers + ", following=" + following + "]";
-	}
-
-	
-	
-
-	
+	}	
 	
 }
+
+
