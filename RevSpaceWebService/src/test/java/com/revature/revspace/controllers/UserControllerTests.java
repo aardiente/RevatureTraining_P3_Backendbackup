@@ -176,7 +176,7 @@ public class UserControllerTests {
 	@Test
 	@WithMockUser(username = TEST_EMAIL)
 	void changePasswordSuccess() throws Exception {
-
+		
 		User user = ModelGenerators.makeRandomUser();
 		user.setEmail(TEST_EMAIL);
 		Credentials creds = ModelGenerators.makeRandomCredentials(user);
@@ -195,7 +195,7 @@ public class UserControllerTests {
 		Mockito.when(cs.changePassword(creds.getCredentialsId(), creds.getPassword())).thenReturn(creds.getPassword());
 
 		ResultActions actions = mvc.perform(MockMvcRequestBuilders.post("/users/password")
-				.contentType("application/json").content(new ObjectMapper().writeValueAsString(creds.getUser())));
+				.contentType("application/json").content(new ObjectMapper().writeValueAsString(newMap)));
 		actions.andExpect(MockMvcResultMatchers.status().isCreated());
 
 	}
