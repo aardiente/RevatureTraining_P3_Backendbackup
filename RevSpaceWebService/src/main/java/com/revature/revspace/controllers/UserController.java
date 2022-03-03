@@ -12,7 +12,11 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+
 import java.util.LinkedHashMap;
+
+import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -86,6 +90,41 @@ public class UserController
             }
         }catch (IllegalArgumentException ignored) {}
         return updatedUser;
+    }
+    
+    @PutMapping(value="/follow/{fId}")
+    public User followUser(@PathVariable("fId") String fId, @RequestBody User loggedUser) {
+    	List<User> lfUser = loggedUser.getFollowing();
+    	User resultUser; 
+        //parsing int from string, can(should) be done somewhere else
+        int safeId;
+        try
+        {
+            safeId = Integer.parseInt(fId);
+        }catch (NumberFormatException e)
+        {
+            safeId = 0;
+        }
+    	User followUser = us.get(safeId);
+        for(User verify : lfUser) {
+        	if(followUser== verify)
+            {
+                throw new ResponseStatusException(HttpStatus.CONFLICT);
+            }
+        }
+        lfUser.add(followUser);
+        loggedUser.setFollowing(lfUser);
+        followUser.getFollowers().add(loggedUser);        
+        resultUser = us.update(loggedUser);
+        us.update(followUser);
+        if (resultUser == null || followUser == null)
+        {
+            throw new ResponseStatusException
+                    (
+                        (safeId == 0)?HttpStatus.NOT_FOUND:HttpStatus.UNPROCESSABLE_ENTITY
+                    );
+        }
+        return resultUser;
     }
 
     @PutMapping(value = "/users/{id}", consumes = "application/json")
