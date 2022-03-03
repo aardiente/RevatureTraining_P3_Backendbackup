@@ -138,10 +138,11 @@ public class UserController
     }
     
     @PostMapping(value="/users/password")
-    public ResponseEntity<User> changePassword(@RequestBody LinkedHashMap bodyMap){
+    public ResponseEntity<User> changePassword(@RequestBody LinkedHashMap<String, String> bodyMap){
     	User user = this.us.getLoggedInUser();
-    	if(cs.getByEmail(bodyMap.get("email").toString()).getPassword().equals(bodyMap.get("oldPassword"))) {
-    		cs.changePassword(Integer.parseInt(bodyMap.get("id").toString()), bodyMap.get("newPassword").toString());
+//    	System.out.println(bodyMap);
+    	if(cs.getByEmail(bodyMap.get("email")).getPassword().equals(bodyMap.get("oldPassword"))) {
+    		cs.changePassword(Integer.parseInt(bodyMap.get("id")), bodyMap.get("newPassword"));
     		return ResponseEntity.status(201).body(user);
     	}else {
     		return ResponseEntity.badRequest().build();
