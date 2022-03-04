@@ -5,6 +5,9 @@ import com.revature.revspace.models.Post;
 import com.revature.revspace.models.User;
 import com.revature.revspace.services.CredentialsService;
 import com.revature.revspace.services.PostService;
+import com.revature.revspace.services.UserService;
+import com.revature.revspace.services.UserServiceImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +22,8 @@ public class PostController
 {
     @Autowired
     PostService pos;
+    @Autowired
+    UserService us;
 //    @Autowired
 //    PostService ps;
 
@@ -33,9 +38,8 @@ public class PostController
 
     //Get Post By ID
     @GetMapping("/posts/{id}")
-    public Post getPostById(@PathVariable(name = "id") String id)
+    public Post getPostById(@PathVariable(name = "id") String id, @PathVariable(name = "uId") String uId)
     {
-
         int safeId;
         try
         {
@@ -57,18 +61,25 @@ public class PostController
 
     //Get Next Ten Posts
 
-    @GetMapping("/posts")
-    public ResponseEntity<List<List<Post>>> getNextTen (@RequestHeader("lastPostIdOnThePage") String lastPostIdOnThePage){
+    @GetMapping("/posts/{uId}")
+    public ResponseEntity<List<List<Post>>> getNextTen (@RequestHeader("lastPostIdOnThePage") String lastPostIdOnThePage, @PathVariable(name="uId") String uId){
         int postId;
+        int safeUid = 0;
         try {
             postId = Integer.parseInt(lastPostIdOnThePage);
+            safeUid = Integer.parseInt(uId);
         } catch (NumberFormatException e){
             postId = -1;
             e.printStackTrace();
         }
+    	User loggedUser = us.get(safeUid);
         List<List<Post>> response = new ArrayList<>();
         if(postId != -1){
             response = pos.pullPostsList(postId);
+            for(List<Post> out : response) {
+            	for(int c = 0; c < out.size() &&) {
+            	}
+            }
         }else {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }

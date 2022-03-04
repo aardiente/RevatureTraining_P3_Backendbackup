@@ -26,7 +26,7 @@ public class UserSerializer extends StdSerializer<User> {
 		gen.writeNumberField("userId", value.getUserId());
 		gen.writeStringField("email", value.getEmail());
 		gen.writeStringField("firstName", value.getFirstName());
-		gen.writeStringField("lasstName", value.getLastName());
+		gen.writeStringField("lastName", value.getLastName());
 		gen.writeNumberField("birthday", value.getBirthday());
 		gen.writeNumberField("revatureJoinDate", value.getRevatureJoinDate());
 		gen.writeStringField("githubUsername", value.getGithubUsername());
