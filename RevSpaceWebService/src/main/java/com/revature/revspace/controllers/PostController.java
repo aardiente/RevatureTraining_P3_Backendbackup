@@ -38,7 +38,7 @@ public class PostController
 
     //Get Post By ID
     @GetMapping("/posts/{id}")
-    public Post getPostById(@PathVariable(name = "id") String id, @PathVariable(name = "uId") String uId)
+    public Post getPostById(@PathVariable(name = "id") String id)
     {
         int safeId;
         try
@@ -61,25 +61,19 @@ public class PostController
 
     //Get Next Ten Posts
 
-    @GetMapping("/posts/{uId}")
-    public ResponseEntity<List<List<Post>>> getNextTen (@RequestHeader("lastPostIdOnThePage") String lastPostIdOnThePage, @PathVariable(name="uId") String uId){
+    @GetMapping("/posts")
+    public ResponseEntity<List<List<Post>>> getNextTen (@RequestHeader("lastPostIdOnThePage") String lastPostIdOnThePage){
         int postId;
-        int safeUid = 0;
         try {
             postId = Integer.parseInt(lastPostIdOnThePage);
-            safeUid = Integer.parseInt(uId);
         } catch (NumberFormatException e){
             postId = -1;
             e.printStackTrace();
         }
-    	User loggedUser = us.get(safeUid);
         List<List<Post>> response = new ArrayList<>();
         if(postId != -1){
             response = pos.pullPostsList(postId);
-            for(List<Post> out : response) {
-            	for(int c = 0; c < out.size() &&) {
-            	}
-            }
+          
         }else {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
