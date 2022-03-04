@@ -5,6 +5,9 @@ import com.revature.revspace.models.Post;
 import com.revature.revspace.models.User;
 import com.revature.revspace.services.CredentialsService;
 import com.revature.revspace.services.PostService;
+import com.revature.revspace.services.UserService;
+import com.revature.revspace.services.UserServiceImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +22,8 @@ public class PostController
 {
     @Autowired
     PostService pos;
+    @Autowired
+    UserService us;
 //    @Autowired
 //    PostService ps;
 
@@ -35,7 +40,6 @@ public class PostController
     @GetMapping("/posts/{id}")
     public Post getPostById(@PathVariable(name = "id") String id)
     {
-
         int safeId;
         try
         {
@@ -69,6 +73,7 @@ public class PostController
         List<List<Post>> response = new ArrayList<>();
         if(postId != -1){
             response = pos.pullPostsList(postId);
+          
         }else {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
