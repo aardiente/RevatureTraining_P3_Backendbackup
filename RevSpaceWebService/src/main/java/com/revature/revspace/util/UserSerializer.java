@@ -10,13 +10,13 @@ import com.revature.revspace.models.User;
 
 public class UserSerializer extends StdSerializer<User> {
     
-    public UserSerializer() {
-        this(null);
+    protected UserSerializer() {
+        super(User.class);
     }
-  
-    public UserSerializer(Class<User> t) {
-        super(t);
-    }
+//  
+//    public UserSerializer(Class<User> t) {
+//        super(t);
+//    }
 
 
 	@Override
@@ -27,8 +27,13 @@ public class UserSerializer extends StdSerializer<User> {
 		gen.writeStringField("email", value.getEmail());
 		gen.writeStringField("firstName", value.getFirstName());
 		gen.writeStringField("lastName", value.getLastName());
-		gen.writeNumberField("birthday", value.getBirthday());
-		gen.writeNumberField("revatureJoinDate", value.getRevatureJoinDate());
+		if(value.getBirthday() != null) {
+			gen.writeNumberField("birthday", value.getBirthday());
+		}		
+		if(value.getRevatureJoinDate() != null) {
+			gen.writeNumberField("revatureJoinDate", value.getRevatureJoinDate());
+		}
+		//gen.writeNumberField("revatureJoinDate", value.getRevatureJoinDate());
 		gen.writeStringField("githubUsername", value.getGithubUsername());
 		gen.writeStringField("title", value.getTitle());
 		gen.writeStringField("location", value.getLocation());
