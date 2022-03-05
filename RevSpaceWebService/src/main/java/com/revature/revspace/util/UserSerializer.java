@@ -45,6 +45,17 @@ public class UserSerializer extends StdSerializer<User> {
 				gen.writeNumberField("userId", field.getUserId());
 				gen.writeStringField("firstName", field.getFirstName());
 				gen.writeStringField("lastName", field.getLastName());
+				if(field.getBirthday() != null) {
+					gen.writeNumberField("birthday", field.getBirthday());
+				}		
+				if(field.getRevatureJoinDate() != null) {
+					gen.writeNumberField("revatureJoinDate", field.getRevatureJoinDate());
+				}
+				//gen.writeNumberField("revatureJoinDate", value.getRevatureJoinDate());
+				gen.writeStringField("githubUsername", field.getGithubUsername());
+				gen.writeStringField("title", field.getTitle());
+				gen.writeStringField("location", field.getLocation());
+				gen.writeStringField("aboutMe", field.getAboutMe());
 				gen.writeEndObject();
 			}
 		}
@@ -56,6 +67,17 @@ public class UserSerializer extends StdSerializer<User> {
 				gen.writeNumberField("userId", field.getUserId());
 				gen.writeStringField("firstName", field.getFirstName());
 				gen.writeStringField("lastName", field.getLastName());
+				if(field.getBirthday() != null) {
+					gen.writeNumberField("birthday", field.getBirthday());
+				}		
+				if(field.getRevatureJoinDate() != null) {
+					gen.writeNumberField("revatureJoinDate", field.getRevatureJoinDate());
+				}
+				//gen.writeNumberField("revatureJoinDate", value.getRevatureJoinDate());
+				gen.writeStringField("githubUsername", field.getGithubUsername());
+				gen.writeStringField("title", field.getTitle());
+				gen.writeStringField("location", field.getLocation());
+				gen.writeStringField("aboutMe", field.getAboutMe());
 				gen.writeEndObject();
 			}
 		}
