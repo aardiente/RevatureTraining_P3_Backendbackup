@@ -113,7 +113,6 @@ public class UserController
                 loggedUser.setFollowing(lfUser);
                 followUser.getFollowers().remove(loggedUser);        
                 resultUser = us.update(loggedUser);
-                us.update(followUser);
                 return resultUser;
             }
         }
