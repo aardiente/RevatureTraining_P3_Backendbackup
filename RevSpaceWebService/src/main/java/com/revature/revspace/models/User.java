@@ -4,7 +4,6 @@ package com.revature.revspace.models;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,29 +11,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-<<<<<<< HEAD
-=======
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
->>>>>>> cc6ab974e1087f575e1c0bf7b5e02e27a7f3f586
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-<<<<<<< HEAD
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-=======
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.revature.revspace.util.UserSerializer;
 
-import java.util.List;
-import java.util.Objects;
->>>>>>> cc6ab974e1087f575e1c0bf7b5e02e27a7f3f586
 
 @Entity
 @Table(name="users")
-@JsonSerialize(using = UserSerializer.class)
 public class User
 {
 	@Id
@@ -69,11 +55,9 @@ public class User
 	@Column(name="aboutme", length=1000, nullable = false)
 	private String aboutMe;
 	
-<<<<<<< HEAD
-	@OneToMany(mappedBy="userReceive", fetch=FetchType.EAGER)
-	@JsonBackReference
-	private List<Notifications> notifications;
-=======
+	//@OneToMany(mappedBy="userReceive", fetch=FetchType.EAGER)
+	//@JsonBackReference
+	//private List<Notifications> notifications;
 	@ManyToMany
     @JoinTable(name = "followers", joinColumns = @JoinColumn(name = "followerId"), inverseJoinColumns = @JoinColumn(name = "userId"))
     private List<User> followers;
@@ -81,7 +65,6 @@ public class User
     @ManyToMany
     @JoinTable(name = "followers", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "followerId"))
     private List<User> following;
->>>>>>> cc6ab974e1087f575e1c0bf7b5e02e27a7f3f586
 
 	public User()
 	{
