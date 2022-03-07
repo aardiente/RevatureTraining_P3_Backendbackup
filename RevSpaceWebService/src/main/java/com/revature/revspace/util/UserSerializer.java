@@ -10,13 +10,13 @@ import com.revature.revspace.models.User;
 
 public class UserSerializer extends StdSerializer<User> {
     
-    public UserSerializer() {
-        this(null);
+    protected UserSerializer() {
+        super(User.class);
     }
-  
-    public UserSerializer(Class<User> t) {
-        super(t);
-    }
+//  
+//    public UserSerializer(Class<User> t) {
+//        super(t);
+//    }
 
 
 	@Override
@@ -26,9 +26,14 @@ public class UserSerializer extends StdSerializer<User> {
 		gen.writeNumberField("userId", value.getUserId());
 		gen.writeStringField("email", value.getEmail());
 		gen.writeStringField("firstName", value.getFirstName());
-		gen.writeStringField("lasstName", value.getLastName());
-		gen.writeNumberField("birthday", value.getBirthday());
-		gen.writeNumberField("revatureJoinDate", value.getRevatureJoinDate());
+		gen.writeStringField("lastName", value.getLastName());
+		if(value.getBirthday() != null) {
+			gen.writeNumberField("birthday", value.getBirthday());
+		}		
+		if(value.getRevatureJoinDate() != null) {
+			gen.writeNumberField("revatureJoinDate", value.getRevatureJoinDate());
+		}
+		//gen.writeNumberField("revatureJoinDate", value.getRevatureJoinDate());
 		gen.writeStringField("githubUsername", value.getGithubUsername());
 		gen.writeStringField("title", value.getTitle());
 		gen.writeStringField("location", value.getLocation());
@@ -40,6 +45,17 @@ public class UserSerializer extends StdSerializer<User> {
 				gen.writeNumberField("userId", field.getUserId());
 				gen.writeStringField("firstName", field.getFirstName());
 				gen.writeStringField("lastName", field.getLastName());
+				if(field.getBirthday() != null) {
+					gen.writeNumberField("birthday", field.getBirthday());
+				}		
+				if(field.getRevatureJoinDate() != null) {
+					gen.writeNumberField("revatureJoinDate", field.getRevatureJoinDate());
+				}
+				//gen.writeNumberField("revatureJoinDate", value.getRevatureJoinDate());
+				gen.writeStringField("githubUsername", field.getGithubUsername());
+				gen.writeStringField("title", field.getTitle());
+				gen.writeStringField("location", field.getLocation());
+				gen.writeStringField("aboutMe", field.getAboutMe());
 				gen.writeEndObject();
 			}
 		}
@@ -51,6 +67,17 @@ public class UserSerializer extends StdSerializer<User> {
 				gen.writeNumberField("userId", field.getUserId());
 				gen.writeStringField("firstName", field.getFirstName());
 				gen.writeStringField("lastName", field.getLastName());
+				if(field.getBirthday() != null) {
+					gen.writeNumberField("birthday", field.getBirthday());
+				}		
+				if(field.getRevatureJoinDate() != null) {
+					gen.writeNumberField("revatureJoinDate", field.getRevatureJoinDate());
+				}
+				//gen.writeNumberField("revatureJoinDate", value.getRevatureJoinDate());
+				gen.writeStringField("githubUsername", field.getGithubUsername());
+				gen.writeStringField("title", field.getTitle());
+				gen.writeStringField("location", field.getLocation());
+				gen.writeStringField("aboutMe", field.getAboutMe());
 				gen.writeEndObject();
 			}
 		}

@@ -44,6 +44,21 @@ public class UserServiceImpl implements UserService
     {
         return this.loggedInUser.getUser();
     }
+
+
+	@Override
+	public User getUserByName(String firstName, String lastName) {
+		List<User> firstname = ur.findByFirstName(firstName);
+		String name = firstName+lastName;
+		
+		for(User temp: firstname) {
+			String search = temp.getFirstName()+temp.getLastName();
+			if(search.equals(name))
+				return temp;
+		}
+		
+		return null;
+	}
     
     @Override
     public List<User> getLoggedFollowers(){
@@ -62,5 +77,5 @@ public class UserServiceImpl implements UserService
     	return user.getFollowers();
     }
     
-    
+
 }

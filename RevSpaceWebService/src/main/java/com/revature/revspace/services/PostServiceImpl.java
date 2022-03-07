@@ -2,8 +2,11 @@ package com.revature.revspace.services;
 
 import com.revature.revspace.models.Like;
 import com.revature.revspace.models.Post;
+import com.revature.revspace.models.User;
 import com.revature.revspace.repositories.LikeRepo;
 import com.revature.revspace.repositories.PostRepo;
+import com.revature.revspace.repositories.UserRepo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     LikeRepo likeRepo;
+    
+    @Autowired
+    UserService userRepo;
 
 
     @Override
@@ -30,6 +36,15 @@ public class PostServiceImpl implements PostService {
     @Override
     public Integer getIDFor(Post value) {
         return value.getPostId();
+    }
+    
+    public List<List<Post>> pullPostsListFollowing(User currentUser){
+    	List<List<Post>> fullPostList = new ArrayList<>();
+    	fullPostList.add(this.postRepo.findByCreatorId(currentUser));
+    	for(User following : currentUser.getFollowing()) {
+    		fullPostList.add(this.postRepo.findByCreatorId(following));
+    	}
+    	return fullPostList;
     }
 
     public List<List<Post>> pullPostsList(int lastPostIdOnThePage){
