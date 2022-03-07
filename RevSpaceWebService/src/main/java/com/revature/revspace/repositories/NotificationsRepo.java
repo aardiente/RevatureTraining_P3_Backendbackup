@@ -8,6 +8,6 @@ import com.revature.revspace.models.Notifications;
 
 public interface NotificationsRepo extends JpaRepository<Notifications, Integer> {
 
-	public List<Notifications> getAllNotifications();
-	public Notifications getNotificationById (String notiId);
+	public List<Notifications> findAll();
+	public Notifications getNotificationBynotiId (String notiId);
 }

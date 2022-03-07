@@ -1,8 +1,11 @@
 package com.revature.revspace.controllers;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.revspace.models.Notifications;
@@ -21,8 +25,6 @@ import com.revature.revspace.services.UserService;
 
 
 @RestController
-@RequestMapping(value="/notifications")
-@CrossOrigin(origins="*")
 public class NotificationsController {
 	
 	
@@ -33,6 +35,7 @@ public class NotificationsController {
 		
 	}
 	
+	@Autowired
 	public NotificationsController (NotificationService nServ, UserService uServ) {
 		super();
 		this.nServ = nServ;
@@ -41,12 +44,12 @@ public class NotificationsController {
 	}
 	
 	@CrossOrigin(origins="*")
-	@GetMapping
+	@GetMapping(value="/notifications")
 	public @ResponseBody List<Notifications> getAllNotifications() {
 		return UserController.loginUser.getList();
 	}
 	
-	@GetMapping(value="/{notiId}") 
+	@GetMapping(value="/notifications/{notiId}") 
 	public ResponseEntity<Notifications> getNotificationById(@PathVariable("notiId") String notiId) {
 		Notifications nmodl = nServ.getNotificationById(notiId);
 		return ResponseEntity.status(200).body(nmodl);
@@ -54,17 +57,17 @@ public class NotificationsController {
 		
 	}
 		
-	@PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE) 
-	public ResponseEntity<List<Notifications>> addNotification(@RequestBody Notifications nmodl) {
-		if(nServ.getNotificationById(nmodl.getMessage())==null) {
+	@PostMapping(value="/notifications", consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<Notifications> addNotification(@RequestBody Notifications nmodl) {
+		System.out.println("this");
+		System.out.println(nmodl);
 			nServ.addNotification(nmodl);
-			return  ResponseEntity.status(201).body(nServ.getAllNotifications());
-		}
-		return  ResponseEntity.noContent().build();
+			return  ResponseEntity.status(201).body(nmodl);
 	}
 	
 	
-	@DeleteMapping("/{notiId}")
+	@DeleteMapping("/notifications/{notiId}")
 	public ResponseEntity<Notifications> deleteNotification(@PathVariable("notId") String notiId) {
 		Optional<Notifications> notiOpt = Optional.ofNullable(nServ.getNotificationById(notiId));
 		if (notiOpt.isPresent()) {

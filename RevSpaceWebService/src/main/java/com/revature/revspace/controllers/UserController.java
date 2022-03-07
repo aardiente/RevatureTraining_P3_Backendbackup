@@ -7,9 +7,15 @@ import com.revature.revspace.services.UserService;
 import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+
+import java.util.LinkedHashMap;
+
+import java.util.ArrayList;
 
 import java.util.List;
 import java.util.Objects;
@@ -87,6 +93,45 @@ public class UserController
         }catch (IllegalArgumentException ignored) {}
         return updatedUser;
     }
+    
+    @PutMapping(value="/follow/{fId}")
+    public User followUser(@PathVariable("fId") String fId, @RequestBody User loggedUser) {
+    	List<User> lfUser = loggedUser.getFollowing();
+    	User resultUser; 
+        //parsing int from string, can(should) be done somewhere else
+        int safeId;
+        try
+        {
+            safeId = Integer.parseInt(fId);
+        }catch (NumberFormatException e)
+        {
+            safeId = 0;
+        }
+    	User followUser = us.get(safeId);
+        for(User verify : lfUser) {
+        	if(followUser.getUserId() == verify.getUserId())
+            {
+        		lfUser.remove(verify);
+                loggedUser.setFollowing(lfUser);
+                followUser.getFollowers().remove(loggedUser);        
+                resultUser = us.update(loggedUser);
+                return resultUser;
+            }
+        }
+        lfUser.add(followUser);
+        loggedUser.setFollowing(lfUser);
+        followUser.getFollowers().add(loggedUser);        
+        resultUser = us.update(loggedUser);
+        us.update(followUser);
+        if (resultUser == null || followUser == null)
+        {
+            throw new ResponseStatusException
+                    (
+                        (safeId == 0)?HttpStatus.NOT_FOUND:HttpStatus.UNPROCESSABLE_ENTITY
+                    );
+        }
+        return resultUser;
+    }
 
     @PutMapping(value = "/users/{id}", consumes = "application/json")
     public User updateUser(@PathVariable("id") String id, @RequestBody User newUser)
@@ -135,5 +180,17 @@ public class UserController
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         return true;
+    }
+    
+    @PostMapping(value="/users/password")
+    public ResponseEntity<User> changePassword(@RequestBody LinkedHashMap<String, String> bodyMap){
+    	User user = this.us.getLoggedInUser();
+//    	System.out.println(bodyMap);
+    	if(cs.getByEmail(bodyMap.get("email")).getPassword().equals(bodyMap.get("oldPassword"))) {
+    		cs.changePassword(Integer.parseInt(bodyMap.get("id")), bodyMap.get("newPassword"));
+    		return ResponseEntity.status(201).body(user);
+    	}else {
+    		return ResponseEntity.badRequest().build();
+    	}    	
     }
 }

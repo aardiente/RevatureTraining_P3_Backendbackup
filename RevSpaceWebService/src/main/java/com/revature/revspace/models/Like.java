@@ -12,7 +12,7 @@ public class Like {
     @Column(name = "like_id", updatable = false)
     private int likeId;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User userId;
 
@@ -21,6 +21,7 @@ public class Like {
     private Post postId;
 
     public Like() {
+    	
     }
 
     public Like(User userId, Post postId) {
