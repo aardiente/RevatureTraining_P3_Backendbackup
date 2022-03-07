@@ -4,20 +4,16 @@ package com.revature.revspace.models;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="users")
@@ -57,7 +53,7 @@ public class User
 	
 	@OneToMany(mappedBy="userReceive", fetch=FetchType.EAGER)
 	@JsonBackReference
-	private List<Notifications> notifications;
+	private List<Notifications> nList;
 
 	public User()
 	{
@@ -75,6 +71,7 @@ public class User
 		this.title = title;
 		this.location = location;
 		this.aboutMe = aboutMe;
+
 	}
 
 	public User(int userId, String email, String firstName, String lastName, Long birthday, Long revatureJoinDate, String githubUsername, String title, String location, String aboutMe)
@@ -89,6 +86,22 @@ public class User
 		this.title = title;
 		this.location = location;
 		this.aboutMe = aboutMe;
+	
+	}
+	
+	public User(int userId, String email, String firstName, String lastName, Long birthday, Long revatureJoinDate, String githubUsername, String title, String location, String aboutMe, List<Notifications> nList)
+	{
+		this.userId = userId;
+		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.birthday = birthday;
+		this.revatureJoinDate = revatureJoinDate;
+		this.githubUsername = githubUsername;
+		this.title = title;
+		this.location = location;
+		this.aboutMe = aboutMe;
+		this.nList = nList;
 	}
 
 	public int getUserId()
@@ -189,6 +202,10 @@ public class User
 	public void setAboutMe(String aboutMe)
 	{
 		this.aboutMe = aboutMe;
+	}
+	
+	public List<Notifications> getList() {
+		return nList;
 	}
 
 	@Override
