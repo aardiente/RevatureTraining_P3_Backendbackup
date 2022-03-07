@@ -25,8 +25,8 @@ public class Notifications {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "noti_id", updatable = false)
-	private int noti_id;
+    @Column(name = "notiId", updatable = false)
+	private int notiId;
 	
 	@Column(name = "message")
 	private String message;
@@ -45,9 +45,9 @@ public class Notifications {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Notifications(int noti_id, String message, LocalDate dateAndTime, User userReceive) {
+	public Notifications(int notiId, String message, LocalDate dateAndTime, User userReceive) {
 		super();
-		this.noti_id = noti_id;
+		this.notiId = notiId;
 		this.message = message;
 		this.dateAndTime = dateAndTime;
 		this.userReceive = userReceive;
@@ -85,13 +85,13 @@ public class Notifications {
 		this.userReceive = userReceive;
 	}
 
-	public int getNoti_id() {
-		return noti_id;
+	public int getNotiId() {
+		return notiId;
 	}
 
 	@Override
 	public String toString() {
-		return "NotificationsModel [noti_id=" + noti_id + ", message=" + message + ", dateAndTime=" + dateAndTime  + ", userReceive=" + userReceive + "]";
+		return "NotificationsModel [notiId=" + notiId + ", message=" + message + ", dateAndTime=" + dateAndTime  + ", userReceive=" + userReceive + "]";
 	}
 	
 }

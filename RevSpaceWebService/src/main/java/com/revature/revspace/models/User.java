@@ -55,9 +55,10 @@ public class User
 	@Column(name="aboutme", length=1000, nullable = false)
 	private String aboutMe;
 	
-	//@OneToMany(mappedBy="userReceive", fetch=FetchType.EAGER)
-	//@JsonBackReference
-	//private List<Notifications> notifications;
+	@OneToMany(mappedBy="userReceive", fetch=FetchType.EAGER)
+	@JsonBackReference
+	private List<Notifications> notifications;
+	
 	@ManyToMany
     @JoinTable(name = "followers", joinColumns = @JoinColumn(name = "followerId"), inverseJoinColumns = @JoinColumn(name = "userId"))
     private List<User> followers;
@@ -65,6 +66,9 @@ public class User
     @ManyToMany
     @JoinTable(name = "followers", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "followerId"))
     private List<User> following;
+	@OneToMany(mappedBy="userReceive", fetch=FetchType.EAGER)
+	@JsonBackReference
+	private List<Notifications> nList;
 
 	public User()
 	{
@@ -97,6 +101,7 @@ public class User
 		this.title = title;
 		this.location = location;
 		this.aboutMe = aboutMe;
+
 	}
 
 	public User(int userId, String email, String firstName, String lastName, Long birthday, Long revatureJoinDate, String githubUsername, String title, String location, String aboutMe)
@@ -111,6 +116,22 @@ public class User
 		this.title = title;
 		this.location = location;
 		this.aboutMe = aboutMe;
+	
+	}
+	
+	public User(int userId, String email, String firstName, String lastName, Long birthday, Long revatureJoinDate, String githubUsername, String title, String location, String aboutMe, List<Notifications> nList)
+	{
+		this.userId = userId;
+		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.birthday = birthday;
+		this.revatureJoinDate = revatureJoinDate;
+		this.githubUsername = githubUsername;
+		this.title = title;
+		this.location = location;
+		this.aboutMe = aboutMe;
+		this.nList = nList;
 	}
 
 	public int getUserId()
@@ -213,6 +234,7 @@ public class User
 		this.aboutMe = aboutMe;
 	}
 	
+
 	public List<User> getFollowers() {
 		return followers;
 	}
@@ -227,6 +249,10 @@ public class User
 	
 	public void setFollowing(List<User> following) {
 		this.following = following;
+	}
+
+	public List<Notifications> getList() {
+		return nList;
 	}
 
 	@Override

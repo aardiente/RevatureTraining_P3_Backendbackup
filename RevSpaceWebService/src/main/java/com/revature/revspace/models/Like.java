@@ -21,6 +21,7 @@ public class Like {
     private Post postId;
 
     public Like() {
+    	
     }
 
     public Like(User userId, Post postId) {

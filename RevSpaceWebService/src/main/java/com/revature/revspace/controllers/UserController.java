@@ -18,11 +18,13 @@ import java.util.Objects;
 @RestController
 public class UserController
 {
+	
     @Autowired
     private UserService us;
     @Autowired
     private CredentialsService cs;
 
+    public static User loginUser;
 
     @GetMapping("/login")
     public User getCurrentUser()
