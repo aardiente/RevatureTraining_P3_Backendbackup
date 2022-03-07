@@ -109,7 +109,11 @@ public class UserController
         for(User verify : lfUser) {
         	if(followUser.getUserId() == verify.getUserId())
             {
-                throw new ResponseStatusException(HttpStatus.CONFLICT);
+        		lfUser.remove(verify);
+                loggedUser.setFollowing(lfUser);
+                followUser.getFollowers().remove(loggedUser);        
+                resultUser = us.update(loggedUser);
+                return resultUser;
             }
         }
         lfUser.add(followUser);

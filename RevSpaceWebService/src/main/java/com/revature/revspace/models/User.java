@@ -257,7 +257,7 @@ public class User
 				+ githubUsername + ", title=" + title + ", location=" + location + ", aboutMe=" + aboutMe
 				+ ", followers=" + followers + ", following=" + following + "]";
 	}
-
+	
 
 	}	
 	
