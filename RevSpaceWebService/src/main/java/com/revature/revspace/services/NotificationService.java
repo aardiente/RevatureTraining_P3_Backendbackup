@@ -3,6 +3,7 @@ package com.revature.revspace.services;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.revature.revspace.models.Notifications;
@@ -17,6 +18,7 @@ public class NotificationService {
 		
 	}
 
+	@Autowired
 	public NotificationService (NotificationsRepo nRepo) {
 		super ();
 		this.nRepo = nRepo;

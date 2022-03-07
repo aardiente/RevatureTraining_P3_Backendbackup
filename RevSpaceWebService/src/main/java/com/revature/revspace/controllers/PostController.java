@@ -5,6 +5,9 @@ import com.revature.revspace.models.Post;
 import com.revature.revspace.models.User;
 import com.revature.revspace.services.CredentialsService;
 import com.revature.revspace.services.PostService;
+import com.revature.revspace.services.UserService;
+import com.revature.revspace.services.UserServiceImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +22,8 @@ public class PostController
 {
     @Autowired
     PostService pos;
+    @Autowired
+    UserService us;
 //    @Autowired
 //    PostService ps;
 
@@ -29,13 +34,35 @@ public class PostController
         Post tempPost = pos.add(p);
         return new ResponseEntity<>(tempPost, HttpStatus.OK);
     }
+    
+    @GetMapping("/follow/posts/{uId}")
+    public ResponseEntity<List<List<Post>>> getNextTenFolow (@PathVariable(name="uId") String uId){
+        int userId = 0;
+        try {
+            userId = Integer.parseInt(uId);
+        } catch (NumberFormatException e){
+            e.printStackTrace();
+        }
+        User loggedUser = us.get(userId);
+        List<List<Post>> response = new ArrayList<>();
+        if(loggedUser != null){
+            response = pos.pullPostsListFollowing(loggedUser);
+          
+        }else {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        if(!response.isEmpty()){
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        }
+    }
 
 
     //Get Post By ID
     @GetMapping("/posts/{id}")
     public Post getPostById(@PathVariable(name = "id") String id)
     {
-
         int safeId;
         try
         {
@@ -69,6 +96,7 @@ public class PostController
         List<List<Post>> response = new ArrayList<>();
         if(postId != -1){
             response = pos.pullPostsList(postId);
+          
         }else {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }

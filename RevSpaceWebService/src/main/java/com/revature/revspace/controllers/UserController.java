@@ -7,11 +7,16 @@ import com.revature.revspace.services.UserService;
 import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+
+import java.util.LinkedHashMap;
+
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -106,7 +111,11 @@ public class UserController
         for(User verify : lfUser) {
         	if(followUser.getUserId() == verify.getUserId())
             {
-                throw new ResponseStatusException(HttpStatus.CONFLICT);
+        		lfUser.remove(verify);
+                loggedUser.setFollowing(lfUser);
+                followUser.getFollowers().remove(loggedUser);        
+                resultUser = us.update(loggedUser);
+                return resultUser;
             }
         }
         lfUser.add(followUser);
@@ -171,5 +180,17 @@ public class UserController
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         return true;
+    }
+    
+    @PostMapping(value="/users/password")
+    public ResponseEntity<User> changePassword(@RequestBody LinkedHashMap<String, String> bodyMap){
+    	User user = this.us.getLoggedInUser();
+//    	System.out.println(bodyMap);
+    	if(cs.getByEmail(bodyMap.get("email")).getPassword().equals(bodyMap.get("oldPassword"))) {
+    		cs.changePassword(Integer.parseInt(bodyMap.get("id")), bodyMap.get("newPassword"));
+    		return ResponseEntity.status(201).body(user);
+    	}else {
+    		return ResponseEntity.badRequest().build();
+    	}    	
     }
 }

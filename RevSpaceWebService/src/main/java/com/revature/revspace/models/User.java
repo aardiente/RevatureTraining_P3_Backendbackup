@@ -17,10 +17,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.revature.revspace.util.UserSerializer;
 
 
 @Entity
 @Table(name="users")
+@JsonSerialize(using = UserSerializer.class)
 public class User
 {
 	@Id
@@ -67,7 +70,7 @@ public class User
     @JoinTable(name = "followers", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "followerId"))
     private List<User> following;
 	@OneToMany(mappedBy="userReceive", fetch=FetchType.EAGER)
-	@JsonBackReference
+	//@JsonBackReference
 	private List<Notifications> nList;
 
 	public User()

@@ -1,6 +1,9 @@
 package com.revature.revspace.repositories;
 
 import com.revature.revspace.models.User;
+
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,4 +17,6 @@ public interface UserRepo extends CrudRepository<User, Integer>
 	 * Returns null if no user exists with that email.
 	 */
 	public User findByEmail(String email);
+	
+	public List<User> findByFirstName(String firstName);
 }
