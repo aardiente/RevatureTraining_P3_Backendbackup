@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface PostService extends CrudService<Post, Integer, PostRepo>{
 
-    public List<List<Post>> pullPostsList(int lastPostIdOnThePage);
+    public List<List<Post>> pullPostsList(int lastPostIdOnThePage, User currentUser);
     List<List<Post>> pullPostsListFollowing(User currentUser);
     public List<Post> selectedRelatedComments (Post parentsPost, List<Post> allComments);
 }

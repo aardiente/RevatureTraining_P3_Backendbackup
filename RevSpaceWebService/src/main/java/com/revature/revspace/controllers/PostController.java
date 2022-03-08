@@ -35,28 +35,28 @@ public class PostController
         return new ResponseEntity<>(tempPost, HttpStatus.OK);
     }
     
-    @GetMapping("/follow/posts/{uId}")
-    public ResponseEntity<List<List<Post>>> getNextTenFolow (@PathVariable(name="uId") String uId){
-        int userId = 0;
-        try {
-            userId = Integer.parseInt(uId);
-        } catch (NumberFormatException e){
-            e.printStackTrace();
-        }
-        User loggedUser = us.get(userId);
-        List<List<Post>> response = new ArrayList<>();
-        if(loggedUser != null){
-            response = pos.pullPostsListFollowing(loggedUser);
-          
-        }else {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
-        if(!response.isEmpty()){
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        }else {
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-        }
-    }
+//    @GetMapping("/follow/posts/{uId}")
+//    public ResponseEntity<List<List<Post>>> getNextTenFolow (@PathVariable(name="uId") String uId){
+//        int userId = 0;
+//        try {
+//            userId = Integer.parseInt(uId);
+//        } catch (NumberFormatException e){
+//            e.printStackTrace();
+//        }
+//        User loggedUser = us.get(userId);
+//        List<List<Post>> response = new ArrayList<>();
+//        if(loggedUser != null){
+//            response = pos.pullPostsListFollowing(loggedUser);
+//          
+//        }else {
+//            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+//        }
+//        if(!response.isEmpty()){
+//            return new ResponseEntity<>(response, HttpStatus.OK);
+//        }else {
+//            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+//        }
+//    }
 
 
     //Get Post By ID
@@ -84,18 +84,21 @@ public class PostController
 
     //Get Next Ten Posts
 
-    @GetMapping("/posts")
-    public ResponseEntity<List<List<Post>>> getNextTen (@RequestHeader("lastPostIdOnThePage") String lastPostIdOnThePage){
+    @GetMapping("/full/posts/{id}")
+    public ResponseEntity<List<List<Post>>> getNextTen (@RequestHeader("lastPostIdOnThePage") String lastPostIdOnThePage, @PathVariable(name="id") String userId){
         int postId;
+        int uId = 0;
         try {
             postId = Integer.parseInt(lastPostIdOnThePage);
+            uId = Integer.parseInt(userId);
         } catch (NumberFormatException e){
             postId = -1;
             e.printStackTrace();
         }
+        User currentUser = us.get(uId);
         List<List<Post>> response = new ArrayList<>();
         if(postId != -1){
-            response = pos.pullPostsList(postId);
+            response = pos.pullPostsList(postId, currentUser);
           
         }else {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
