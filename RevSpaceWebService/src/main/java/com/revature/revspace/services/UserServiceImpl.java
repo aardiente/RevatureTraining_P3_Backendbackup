@@ -4,6 +4,7 @@ import com.revature.revspace.models.User;
 import com.revature.revspace.repositories.UserRepo;
 import com.revature.revspace.utils.LoggedInUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,17 +48,19 @@ public class UserServiceImpl implements UserService
 
 
 	@Override
-	public User getUserByName(String firstName, String lastName) {
+	public List<User> getAllUserByName(String firstName, String lastName) {
 		List<User> firstname = ur.findByFirstName(firstName);
+		List<User> searchedUser = new ArrayList<User>();
 		String name = firstName+lastName;
 		
 		for(User temp: firstname) {
 			String search = temp.getFirstName()+temp.getLastName();
-			if(search.equals(name))
-				return temp;
+			if(search.equals(name)) {
+				searchedUser.add(temp);
+			}
 		}
 		
-		return null;
+		return searchedUser;
 	}
     
     @Override
@@ -76,6 +79,22 @@ public class UserServiceImpl implements UserService
     public List<User> getViewFollowers(User user) {
     	return user.getFollowers();
     }
+
+
+	@Override
+	public List<User> getAllUserByEmail(String email) {
+		List<User> emailList = ur.findAll();
+		List<User> searchedUser = new ArrayList<User>();
+		
+		for(User temp: emailList) {
+			String search = temp.getEmail();
+			if(search.equals(email)) {
+				searchedUser.add(temp);
+			}
+		}
+		
+		return searchedUser;
+	}
     
 
 }

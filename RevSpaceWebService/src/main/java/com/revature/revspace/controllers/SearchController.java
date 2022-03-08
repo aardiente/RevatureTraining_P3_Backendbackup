@@ -35,14 +35,14 @@ public class SearchController {
 	}
 	
 	@GetMapping("/search/email")
-	public ResponseEntity<User> findUserByEmail(@RequestParam("email") String email){
-		return ResponseEntity.status(200).body(this.uServ.getUserByEmail(email));
+	public ResponseEntity<List<User>> findUserByEmail(@RequestParam("email") String email){
+		return ResponseEntity.status(200).body(this.uServ.getAllUserByEmail(email));
 	}
 	
 	@GetMapping("/search/name")
-	public ResponseEntity<User> findUserByName(@RequestParam("firstname") String firstname, @RequestParam("lastname") String lastname){
+	public ResponseEntity<List<User>> findUserByName(@RequestParam("firstname") String firstname, @RequestParam("lastname") String lastname){
 //		String[] userName = name.split("\\s+");
-		return ResponseEntity.status(200).body(this.uServ.getUserByName(firstname, lastname));
+		return ResponseEntity.status(200).body(this.uServ.getAllUserByName(firstname, lastname));
 	}
 	
 	

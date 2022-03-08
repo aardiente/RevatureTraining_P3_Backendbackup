@@ -62,4 +62,7 @@ public class CredentialsServiceTest {
                 .thenReturn(creds);
         assertEquals(creds.getUser().getUserId(), credentialsService.getIdByUserId(id));
     }
+    
+    
+    
 }

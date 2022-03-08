@@ -187,4 +187,9 @@ public class UserController
     		return ResponseEntity.badRequest().build();
     	}    	
     }
+    
+    @GetMapping("/users/all")
+	public ResponseEntity<List<User>> findAllUsers(){
+		return ResponseEntity.status(200).body(this.us.getAll());
+	}
 }

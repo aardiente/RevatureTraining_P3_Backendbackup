@@ -3,6 +3,7 @@ package com.revature.revspace.testutils;
 import com.revature.revspace.models.Credentials;
 import com.revature.revspace.models.User;
 
+import java.time.LocalDate;
 import java.util.Random;
 
 public class ModelGenerators
@@ -91,5 +92,6 @@ public class ModelGenerators
 	{
 		String password = makeRandomAlphaString(64,64);
 		return new Credentials(makeRandomUser(), password);
+		
 	}
 }

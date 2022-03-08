@@ -17,6 +17,6 @@ public interface UserRepo extends CrudRepository<User, Integer>
 	 * Returns null if no user exists with that email.
 	 */
 	public User findByEmail(String email);
-	
+	public List<User> findAll();
 	public List<User> findByFirstName(String firstName);
 }
