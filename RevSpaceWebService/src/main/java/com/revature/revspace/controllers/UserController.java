@@ -112,14 +112,14 @@ public class UserController
         	if(followUser.getUserId() == verify.getUserId())
             {
         		lfUser.remove(verify);
-                loggedUser.setFollowing(lfUser);
+                loggedUser.setFollowers(lfUser);
                 followUser.getFollowers().remove(loggedUser);        
                 resultUser = us.update(loggedUser);
                 return resultUser;
             }
         }
         lfUser.add(followUser);
-        loggedUser.setFollowing(lfUser);
+        loggedUser.setFollowers(lfUser);
         followUser.getFollowers().add(loggedUser);        
         resultUser = us.update(loggedUser);
         us.update(followUser);

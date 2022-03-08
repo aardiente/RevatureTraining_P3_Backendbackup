@@ -69,9 +69,6 @@ public class User
     @ManyToMany
     @JoinTable(name = "followers", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "followerId"))
     private List<User> following;
-	@OneToMany(mappedBy="userReceive", fetch=FetchType.EAGER)
-	//@JsonBackReference
-	private List<Notifications> nList;
 
 	public User()
 	{
@@ -107,6 +104,8 @@ public class User
 
 	}
 
+
+	
 	public User(int userId, String email, String firstName, String lastName, Long birthday, Long revatureJoinDate, String githubUsername, String title, String location, String aboutMe)
 	{
 		this.userId = userId;
@@ -119,22 +118,6 @@ public class User
 		this.title = title;
 		this.location = location;
 		this.aboutMe = aboutMe;
-	
-	}
-	
-	public User(int userId, String email, String firstName, String lastName, Long birthday, Long revatureJoinDate, String githubUsername, String title, String location, String aboutMe, List<Notifications> nList)
-	{
-		this.userId = userId;
-		this.email = email;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.birthday = birthday;
-		this.revatureJoinDate = revatureJoinDate;
-		this.githubUsername = githubUsername;
-		this.title = title;
-		this.location = location;
-		this.aboutMe = aboutMe;
-		this.nList = nList;
 	}
 
 	public int getUserId()
@@ -250,13 +233,7 @@ public class User
 		this.followers = followers;
 	}
 	
-	public void setFollowing(List<User> following) {
-		this.following = following;
-	}
 
-	public List<Notifications> getList() {
-		return nList;
-	}
 
 	@Override
 	public boolean equals(Object o)
