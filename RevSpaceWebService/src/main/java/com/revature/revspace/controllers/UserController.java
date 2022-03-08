@@ -94,7 +94,8 @@ public class UserController
     
     @PutMapping(value="/follow/{fId}")
     public User followUser(@PathVariable("fId") String fId, @RequestBody User loggedUser) {
-    	List<User> lfUser = loggedUser.getFollowing();
+    	User newLoggedUser = us.get(loggedUser.getUserId());
+    	List<User> lfUser = newLoggedUser.getFollowing();
     	User resultUser; 
         //parsing int from string, can(should) be done somewhere else
         int safeId;
