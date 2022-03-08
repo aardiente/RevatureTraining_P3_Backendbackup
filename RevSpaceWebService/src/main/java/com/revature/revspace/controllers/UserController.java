@@ -181,7 +181,7 @@ public class UserController
     	User user = this.us.getLoggedInUser();
 //    	System.out.println(bodyMap);
     	if(cs.getByEmail(bodyMap.get("email")).getPassword().equals(bodyMap.get("oldPassword"))) {
-    		cs.changePassword(Integer.parseInt(bodyMap.get("id")), bodyMap.get("newPassword"));
+    		user = cs.changePassword(Integer.parseInt(bodyMap.get("id")), bodyMap.get("newPassword"));
     		return ResponseEntity.status(201).body(user);
     	}else {
     		return ResponseEntity.badRequest().build();
