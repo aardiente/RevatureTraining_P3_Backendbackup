@@ -36,9 +36,16 @@ public class CredentialsServiceImpl implements CredentialsService{
 
 	@Override
 	public String changePassword(int id, String password) {
-		Credentials credResult = credentialsRepo.findByUserUserId(id);
+		Credentials credResult = credentialsRepo.findByUserUserId(id);		
 		String answer = "Password Changed.";
 		credResult.setPassword(password);
+		credentialsRepo.save(credResult);
 		return answer;
+	}
+
+	@Override
+	public String getPasswordByEmail(String email) {
+		Credentials credResult = credentialsRepo.findByUserEmail(email);
+		return credResult.getPassword();
 	}
 }

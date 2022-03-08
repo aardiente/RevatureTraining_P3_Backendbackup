@@ -14,14 +14,9 @@ public interface UserService extends CrudService<User, Integer, UserRepo>
 	 * @return Currently logged-in user. Returns null if used outside an HTTP request scope.
 	 */
 	public User getLoggedInUser();
-<<<<<<< HEAD
-	public static List<User> findAllUser() {
-	
-		return null;
-	}
-=======
+
 	public List<User> getLoggedFollowers();
 	public List<User> getLoggedFollowing();
 	public List<User> getViewFollowers(User user);
->>>>>>> 3059cb01ec6cec2e947ee863f29da874af0df0db
+
 }

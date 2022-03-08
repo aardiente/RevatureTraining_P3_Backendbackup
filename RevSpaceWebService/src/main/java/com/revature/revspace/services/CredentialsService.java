@@ -16,4 +16,5 @@ public interface CredentialsService extends CrudService<Credentials, Integer, Cr
     Integer getIdByUserId(int id);
     
     public String changePassword(int id, String password);
+    public String getPasswordByEmail(String email);
 }
