@@ -111,6 +111,7 @@ public class UserController
                     );
         }
         return resultUser;
+        
     }
 
     @DeleteMapping(value = "/users/{id}")
@@ -147,4 +148,5 @@ public class UserController
     		return ResponseEntity.badRequest().build();
     	}    	
     }
-}
+	
+	  
