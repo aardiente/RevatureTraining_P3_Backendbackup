@@ -192,7 +192,7 @@ public class UserControllerTests {
 		
 		Mockito.when(service.getLoggedInUser()).thenReturn(creds.getUser());
 		Mockito.when(cs.getByEmail(creds.getUser().getEmail())).thenReturn(creds);
-		Mockito.when(cs.changePassword(creds.getCredentialsId(), creds.getPassword())).thenReturn(user);
+		Mockito.when(cs.changePassword(creds.getCredentialsId(), creds.getPassword())).thenReturn(creds.getPassword());
 
 		ResultActions actions = mvc.perform(MockMvcRequestBuilders.post("/users/password")
 				.contentType("application/json").content(new ObjectMapper().writeValueAsString(newMap)));
