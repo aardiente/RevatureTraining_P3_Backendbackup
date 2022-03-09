@@ -111,16 +111,16 @@ public class UserController
         	if(followUser.getUserId() == verify.getUserId())
             {
         		lfUser.remove(verify);
-                loggedUser.setFollowing(lfUser);
-                followUser.getFollowers().remove(loggedUser);        
-                resultUser = us.update(loggedUser);
+                newLoggedUser.setFollowing(lfUser);
+                followUser.getFollowers().remove(newLoggedUser);        
+                resultUser = us.update(newLoggedUser);
                 return resultUser;
             }
         }
         lfUser.add(followUser);
         
-        loggedUser.setFollowing(lfUser);      
-        resultUser = us.update(loggedUser);
+        newLoggedUser.setFollowing(lfUser);      
+        resultUser = us.update(newLoggedUser);
         if (resultUser == null || followUser == null)
         {
             throw new ResponseStatusException
