@@ -57,7 +57,27 @@ public class UserController
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
+    
+    @GetMapping("/users/email/{email}")
+    public User getUserByEmail(@PathVariable(name = "email") String email)
+    {
+        User foundUser = us.getUserByEmail(email);
+        if (null != foundUser)
+        {
+            return foundUser;
+        }else
+        {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
 
+    @GetMapping("/users/password/{email}")
+    public String getUserPassword(@PathVariable(name = "email") String email) {
+    
+    	String returnedPW = cs.getPasswordByEmail(email);
+    	return returnedPW;
+    }
+    
     /**
      * Adds a given user through a surrounding credentials object
      * gives a 409 for duplicate username, 422 for incomplete input
@@ -155,6 +175,7 @@ public class UserController
                     );
         }
         return resultUser;
+        
     }
 
     @DeleteMapping(value = "/users/{id}")
@@ -184,7 +205,6 @@ public class UserController
     @PostMapping(value="/users/password")
     public ResponseEntity<User> changePassword(@RequestBody LinkedHashMap<String, String> bodyMap){
     	User user = this.us.getLoggedInUser();
-//    	System.out.println(bodyMap);
     	if(cs.getByEmail(bodyMap.get("email")).getPassword().equals(bodyMap.get("oldPassword"))) {
     		cs.changePassword(Integer.parseInt(bodyMap.get("id")), bodyMap.get("newPassword"));
     		return ResponseEntity.status(201).body(user);
@@ -192,4 +212,11 @@ public class UserController
     		return ResponseEntity.badRequest().build();
     	}    	
     }
+    
+    @GetMapping("/users/all")
+	public ResponseEntity<List<User>> findAllUsers(){
+		return ResponseEntity.status(200).body(this.us.getAll());
+	}
 }
+	
+	  

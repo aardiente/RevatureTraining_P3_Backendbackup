@@ -1,5 +1,8 @@
 package com.revature.revspace.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +29,9 @@ public class SearchControllerTest {
 	
 	private static final String TEST_EMAIL = "testemail@revature.net";
 	
-	private static final String TEST_NAME = "Search Feature";
+	private static final String TEST_FIRSTNAME = "Search";
+	
+	private static final String TEST_LASTNAME = "Feature";
 	
 	@MockBean
 	private UserService service;
@@ -39,31 +44,33 @@ public class SearchControllerTest {
 	
 	@Test
 	@WithMockUser(username=TEST_EMAIL)
-	void getUserByEmail() throws Exception
+	void getAllUserByEmail() throws Exception
 	{
 		User user = ModelGenerators.makeRandomUser();
-
-		Mockito.when(service.getUserByEmail(TEST_EMAIL))
-			.thenReturn(user);
+		List<User> uList = new ArrayList<User>();
+		uList.add(user);
+		
+		Mockito.when(service.getAllUserByEmail(TEST_EMAIL)).thenReturn(uList);
 		ResultActions actions = mvc.perform(MockMvcRequestBuilders.get("/users/search/email?email=testemail@revature.net")
 			.contentType("application/json")
-			.content("{}"));
+			.content(TEST_EMAIL));
 		actions.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 	
 	@Test
-	@WithMockUser(value=TEST_NAME)
-	void getUserByName() throws Exception
+	@WithMockUser(username=TEST_EMAIL)
+	void getAllUserByName() throws Exception
 	{
 		User user = ModelGenerators.makeRandomUser();
 		
-		String[] userName = TEST_NAME.split("\\s+");
+		List<User> uList = new ArrayList<User>();
+		uList.add(user);
+		String FULL_NAME = TEST_FIRSTNAME+TEST_LASTNAME;
 
-		Mockito.when(service.getUserByName(userName[0], userName[1]))
-			.thenReturn(user);
+		Mockito.when(service.getAllUserByName(TEST_FIRSTNAME, TEST_LASTNAME)).thenReturn(uList);
 		ResultActions actions = mvc.perform(MockMvcRequestBuilders.get("/users/search/name?firstname=Search&lastname=Feature")
 			.contentType("application/json")
-			.content("{}"));
+			.content(FULL_NAME));
 		actions.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 

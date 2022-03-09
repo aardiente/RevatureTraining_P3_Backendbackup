@@ -62,4 +62,21 @@ public class CredentialsServiceTest {
                 .thenReturn(creds);
         assertEquals(creds.getUser().getUserId(), credentialsService.getIdByUserId(id));
     }
+    
+    @Test
+    void changePasswordTest() {
+    	Credentials creds = ModelGenerators.makeRandomCredentials();
+    	int id = creds.getUser().getUserId();
+    	Mockito.when(credentialsRepo.findByUserUserId(id))
+        .thenReturn(creds);
+    	assertEquals("Password Changed.", credentialsService.changePassword(id, creds.getPassword()));
+    }
+    
+    @Test
+    void getPasswordByEmailTest() {
+    	Credentials creds = ModelGenerators.makeRandomCredentials();
+    	Mockito.when(credentialsRepo.findByUserEmail(creds.getUser().getEmail())).thenReturn(creds);
+		assertEquals(creds.getPassword(), credentialsService.getPasswordByEmail(creds.getUser().getEmail()));
+	}
+    
 }

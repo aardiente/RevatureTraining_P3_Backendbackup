@@ -3,6 +3,8 @@ package com.revature.revspace.services;
 import com.revature.revspace.models.Credentials;
 import com.revature.revspace.models.User;
 import com.revature.revspace.repositories.CredentialsRepo;
+import com.revature.revspace.repositories.UserRepo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,9 @@ public class CredentialsServiceImpl implements CredentialsService{
 
     @Autowired
     CredentialsRepo credentialsRepo;
+    
+    @Autowired
+    UserRepo ur;
 
     @Override
     public CredentialsRepo getRepo() {
@@ -36,9 +41,16 @@ public class CredentialsServiceImpl implements CredentialsService{
 
 	@Override
 	public String changePassword(int id, String password) {
-		Credentials credResult = credentialsRepo.findByUserUserId(id);
+		Credentials credResult = credentialsRepo.findByUserUserId(id);		
 		String answer = "Password Changed.";
 		credResult.setPassword(password);
+		credentialsRepo.save(credResult);
 		return answer;
+	}
+
+	@Override
+	public String getPasswordByEmail(String email) {
+		Credentials credResult = credentialsRepo.findByUserEmail(email);
+		return credResult.getPassword();
 	}
 }

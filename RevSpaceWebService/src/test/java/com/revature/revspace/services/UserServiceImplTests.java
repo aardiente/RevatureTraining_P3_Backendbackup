@@ -71,13 +71,26 @@ public class UserServiceImplTests {
 	}
 	
 	@Test
-	void getUserByNameGetsUser()
+	void getAllUserByNameGetsUser()
 	{
 		User expectedUser = ModelGenerators.makeRandomUser();
 		List<User> uList = new ArrayList<User>();
 		uList.add(expectedUser);
 		Mockito.when(this.repo.findByFirstName(expectedUser.getFirstName())).thenReturn(uList);
-		User actualUser = this.userService.getUserByName(expectedUser.getFirstName(), expectedUser.getLastName());
-		Assertions.assertEquals(expectedUser, actualUser);
+		List<User> actualUser = this.userService.getAllUserByName(expectedUser.getFirstName(), expectedUser.getLastName());
+		Assertions.assertEquals(uList, actualUser);
+		
+	}
+	
+	@Test
+	void getAllUserByEmailGetsUser()
+	{
+		User expectedUser = ModelGenerators.makeRandomUser();
+		List<User> uList = new ArrayList<User>();
+		uList.add(expectedUser);
+		Mockito.when(this.repo.findAll()).thenReturn(uList);
+		List<User> actualUser = this.userService.getAllUserByEmail(expectedUser.getEmail());
+		Assertions.assertEquals(uList, actualUser);
+		
 	}
 }
