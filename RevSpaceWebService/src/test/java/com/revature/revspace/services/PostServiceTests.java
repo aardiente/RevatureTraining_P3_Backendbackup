@@ -116,7 +116,7 @@ public class PostServiceTests {
         Mockito.when(pr.findByCommentFalseOrderByDateDesc()).thenReturn(postList);
         Mockito.when(pr.findByCommentTrueOrderByDateAsc()).thenReturn(allComments);
         Mockito.when(lr.findAll()).thenReturn(likeList);
-        List<List<Post>> actual = ps.pullPostsList(0);
+        List<List<Post>> actual = ps.pullPostsList(0, new User());
 
         Assertions.assertNotNull(actual);
     }
@@ -126,7 +126,7 @@ public class PostServiceTests {
         Mockito.when(pr.findByCommentFalseOrderByDateDesc()).thenReturn(postList);
         Mockito.when(pr.findByCommentTrueOrderByDateAsc()).thenReturn(allComments);
         Mockito.when(lr.findAll()).thenReturn(likeList);
-        List<List<Post>> actual = ps.pullPostsList(10);
+        List<List<Post>> actual = ps.pullPostsList(10, new User());
         List<List<Post>> expected = new ArrayList<>();
         List<Post> list = new ArrayList<>();
         expected.add(list);
