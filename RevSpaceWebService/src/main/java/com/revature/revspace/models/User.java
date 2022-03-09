@@ -1,23 +1,25 @@
 package com.revature.revspace.models;
 
 
+import java.util.List;
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.revature.revspace.util.UserSerializer;
 
-import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name="users")
@@ -56,6 +58,10 @@ public class User
 	@Column(name="aboutme", length=1000, nullable = false)
 	private String aboutMe;
 	
+	@OneToMany(mappedBy="userReceive", fetch=FetchType.EAGER)
+	@JsonBackReference
+	private List<Notifications> notifications;
+	
 	@ManyToMany
     @JoinTable(name = "followers", joinColumns = @JoinColumn(name = "followerId"), inverseJoinColumns = @JoinColumn(name = "userId"))
     private List<User> followers;
@@ -64,13 +70,21 @@ public class User
     @JoinTable(name = "followers", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "followerId"))
     private List<User> following;
 
-	public User()
-	{
+	public User() {
 		this("", "", "", null, null, "", "", "", "");
 	}
 	
-	public User(String email, String firstName, String lastName, Long birthday, Long revatureJoinDate, String githubUsername, String title, String location, String aboutMe, List<User> followers, List<User> following)
-	{
+	public User(int userId, String email, String firstName, String lastName, Long birthday, Long revatureJoinDate,
+			String githubUsername, String title, String location, String aboutMe, List<User> followers,
+			List<User> following) {
+		super();
+		this.userId = userId;
+	}
+	
+	public User(String email, String firstName, String lastName, Long birthday, Long revatureJoinDate, 
+			String githubUsername, String title, String location, String aboutMe, List<User> followers, 
+			List<User> following) {
+		
 		this.email = email;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -95,8 +109,11 @@ public class User
 		this.title = title;
 		this.location = location;
 		this.aboutMe = aboutMe;
+
 	}
 
+
+	
 	public User(int userId, String email, String firstName, String lastName, Long birthday, Long revatureJoinDate, String githubUsername, String title, String location, String aboutMe)
 	{
 		this.userId = userId;
@@ -211,18 +228,22 @@ public class User
 		this.aboutMe = aboutMe;
 	}
 	
+
 	public List<User> getFollowers() {
 		return followers;
+	}
+
+	public void setFollowers(List<User> followers) {
+		this.followers = followers;
 	}
 
 	public List<User> getFollowing() {
 		return following;
 	}
 	
-	public void setFollowers(List<User> followers) {
-		this.followers = followers;
-	}
 	
+
+
 	public void setFollowing(List<User> following) {
 		this.following = following;
 	}
@@ -248,8 +269,11 @@ public class User
 				+ ", birthday=" + birthday + ", revatureJoinDate=" + revatureJoinDate + ", githubUsername="
 				+ githubUsername + ", title=" + title + ", location=" + location + ", aboutMe=" + aboutMe
 				+ ", followers=" + followers + ", following=" + following + "]";
+	}
+	
+
 	}	
 	
-}
+
 
 

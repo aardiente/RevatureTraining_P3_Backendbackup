@@ -69,15 +69,15 @@ public class UserServiceImpl implements UserService
 	}
     
     @Override
-    public List<User> getLoggedFollowers() {
-    	return this.getLoggedInUser().getFollowers();
+    public List<User> getLoggedFollowers(){
+    	return this.getLoggedInUser().getFollowing();
     	
     }
     
     @Override
     public List<User> getLoggedFollowing() {
     	return this.getLoggedInUser().getFollowing();
-    	
+  
     }
     
     @Override
@@ -100,6 +100,8 @@ public class UserServiceImpl implements UserService
 		
 		return searchedUser;
 	}
+    
+    
     
 
 }

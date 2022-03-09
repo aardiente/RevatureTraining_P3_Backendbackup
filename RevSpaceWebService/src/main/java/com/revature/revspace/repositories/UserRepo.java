@@ -1,5 +1,6 @@
 package com.revature.revspace.repositories;
 
+import com.revature.revspace.models.Notifications;
 import com.revature.revspace.models.User;
 
 import java.util.List;
