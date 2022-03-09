@@ -53,23 +53,25 @@ public class SearchControllerTest {
 		Mockito.when(service.getAllUserByEmail(TEST_EMAIL)).thenReturn(uList);
 		ResultActions actions = mvc.perform(MockMvcRequestBuilders.get("/users/search/email?email=testemail@revature.net")
 			.contentType("application/json")
-			.content("{}"));
+			.content(TEST_EMAIL));
 		actions.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 	
-//	@Test
-//	void getAllUserByName() throws Exception
-//	{
-//		User user = ModelGenerators.makeRandomUser();
-//		
-//		List<User> uList = new ArrayList<User>();
-//		uList.add(user);
-//
-//		Mockito.when(service.getAllUserByName(TEST_FIRSTNAME, TEST_LASTNAME)).thenReturn(uList);
-//		ResultActions actions = mvc.perform(MockMvcRequestBuilders.get("/users/search/name?firstname=Search&lastname=Feature")
-//			.contentType("application/json")
-//			.content("{}"));
-//		actions.andExpect(MockMvcResultMatchers.status().isOk());
-//	}
+	@Test
+	@WithMockUser(username=TEST_EMAIL)
+	void getAllUserByName() throws Exception
+	{
+		User user = ModelGenerators.makeRandomUser();
+		
+		List<User> uList = new ArrayList<User>();
+		uList.add(user);
+		String FULL_NAME = TEST_FIRSTNAME+TEST_LASTNAME;
+
+		Mockito.when(service.getAllUserByName(TEST_FIRSTNAME, TEST_LASTNAME)).thenReturn(uList);
+		ResultActions actions = mvc.perform(MockMvcRequestBuilders.get("/users/search/name?firstname=Search&lastname=Feature")
+			.contentType("application/json")
+			.content(FULL_NAME));
+		actions.andExpect(MockMvcResultMatchers.status().isOk());
+	}
 
 }

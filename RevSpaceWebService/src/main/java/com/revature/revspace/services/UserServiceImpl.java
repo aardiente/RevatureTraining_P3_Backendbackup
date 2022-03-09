@@ -60,10 +60,9 @@ public class UserServiceImpl implements UserService
 			if(search.equals(name)) {
 				searchedUser.add(temp);
 			}
-			else if(temp.getFirstName().equals(firstName)) {
-//				searchedUser.add(temp);
-				return firstname;
-			}
+//			else if(temp.getFirstName().equals(firstName)) {
+//				return firstname;
+//			}
 		}
 		
 		return searchedUser;
