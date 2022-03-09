@@ -173,7 +173,7 @@ public class PostControllerTest {
         List<List<Post>> postList = new ArrayList<>();
         postList.add(post1);
 
-        Mockito.when(service.pullPostsList(1)).thenReturn(postList);
+        Mockito.when(service.pullPostsList(1, user)).thenReturn(postList);
 
         ResultActions ra = mvc.perform(MockMvcRequestBuilders.get("/posts").header("lastPostIdOnThePage", 1));
         ra.andExpect(status().isOk());
@@ -204,7 +204,7 @@ public class PostControllerTest {
         postList.add(post1);
 
 
-        Mockito.when(service.pullPostsList(1)).thenReturn(postList);
+        Mockito.when(service.pullPostsList(1, user)).thenReturn(postList);
 
 
         ResultActions ra = mvc.perform(MockMvcRequestBuilders.get("/posts").header("lastPostIdOnThePage", -1));
@@ -235,7 +235,7 @@ public class PostControllerTest {
         postList.add(post1);
 
 
-        Mockito.when(service.pullPostsList(1)).thenReturn(postList);
+        Mockito.when(service.pullPostsList(1, user)).thenReturn(postList);
 
 
         ResultActions ra = mvc.perform(MockMvcRequestBuilders.get("/posts").header("lastPostIdOnThePage", "a"));

@@ -114,7 +114,8 @@ public class UserController
     
     @PutMapping(value="/follow/{fId}")
     public User followUser(@PathVariable("fId") String fId, @RequestBody User loggedUser) {
-    	List<User> lfUser = loggedUser.getFollowing();
+    	User newLoggedUser = us.get(loggedUser.getUserId());
+    	List<User> lfUser = newLoggedUser.getFollowing();
     	User resultUser; 
         //parsing int from string, can(should) be done somewhere else
         int safeId;
@@ -127,16 +128,19 @@ public class UserController
         }
     	User followUser = us.get(safeId);
         for(User verify : lfUser) {
-        	if(followUser== verify)
+        	if(followUser.getUserId() == verify.getUserId())
             {
-                throw new ResponseStatusException(HttpStatus.CONFLICT);
+        		lfUser.remove(verify);
+                newLoggedUser.setFollowing(lfUser);
+                followUser.getFollowers().remove(newLoggedUser);        
+                resultUser = us.update(newLoggedUser);
+                return resultUser;
             }
         }
         lfUser.add(followUser);
-        loggedUser.setFollowing(lfUser);
-        followUser.getFollowers().add(loggedUser);        
-        resultUser = us.update(loggedUser);
-        us.update(followUser);
+        
+        newLoggedUser.setFollowing(lfUser);      
+        resultUser = us.update(newLoggedUser);
         if (resultUser == null || followUser == null)
         {
             throw new ResponseStatusException
@@ -145,6 +149,7 @@ public class UserController
                     );
         }
         return resultUser;
+
     }
 
     @PutMapping(value = "/users/{id}", consumes = "application/json")
