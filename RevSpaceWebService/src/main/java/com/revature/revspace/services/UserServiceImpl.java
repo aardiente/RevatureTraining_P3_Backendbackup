@@ -52,9 +52,11 @@ public class UserServiceImpl implements UserService
 		List<User> firstname = ur.findByFirstName(firstName);
 		List<User> searchedUser = new ArrayList<User>();
 		String name = firstName+lastName;
+		name = name.toLowerCase();
 		
 		for(User temp: firstname) {
 			String search = temp.getFirstName()+temp.getLastName();
+			search = search.toLowerCase();
 			if(search.equals(name)) {
 				searchedUser.add(temp);
 			}
