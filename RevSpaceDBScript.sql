@@ -46,6 +46,21 @@ create table likes (
 	post_id int references posts(post_id)
 );
 
+create table notifications(
+	notifications_id serial primary key,
+	messages varchar(250),
+	sender_id int references users(user_id),
+	receiver_id int references users(user_id),
+	date localDate,
+	time localDate,
+	post_id int references posts(post_id)
+);
+
+
+--A user liked your post at 2/28 5:00pm
+--A user commented on your post at...
+--This user followed you
+
 
 -----------------------------------------------
 --POPULATORS--

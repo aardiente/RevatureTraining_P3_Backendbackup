@@ -23,11 +23,13 @@ import java.util.Objects;
 @RestController
 public class UserController
 {
+	
     @Autowired
     private UserService us;
     @Autowired
     private CredentialsService cs;
 
+    public static User loginUser;
 
     @GetMapping("/login")
     public User getCurrentUser()
@@ -134,11 +136,11 @@ public class UserController
                 newLoggedUser.setFollowing(lfUser);
                 followUser.getFollowers().remove(newLoggedUser);        
                 resultUser = us.update(newLoggedUser);
+
                 return resultUser;
             }
         }
         lfUser.add(followUser);
-        
         newLoggedUser.setFollowing(lfUser);      
         resultUser = us.update(newLoggedUser);
         if (resultUser == null || followUser == null)
