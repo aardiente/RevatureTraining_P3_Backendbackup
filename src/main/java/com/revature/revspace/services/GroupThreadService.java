@@ -14,6 +14,7 @@ public interface GroupThreadService
 	public List<GroupThread> getAllGroupThreads();
 	public List<GroupThread> getAllUniqueThreads();
 	public List<GroupThread> getGroupThreadsByOwner(User obj);
+	public List<GroupThread> getGroupThreadsByInfo(int id);
 	public List<GroupInfo> getGroupThreadsByUser(int id);
 	public List<GroupInfo> getOtherGroups(int id);
 }

@@ -184,4 +184,29 @@ public class GroupThreadServiceImpl implements GroupThreadService
 			return null;
 	}
 
+	@Override
+	public List<GroupThread> getGroupThreadsByInfo(int id)
+	{
+		List<GroupThread> gList = null;
+		List<GroupThread> rList = null;
+	
+		try
+		{
+			gList = (List<GroupThread>)repo.findAll();
+			
+			rList = new ArrayList<GroupThread>();
+			
+			for(GroupThread g : gList)
+			{		
+				if(g.getGroupInfo().getInfoId() == id)
+					rList.add(g);
+			}
+		}catch(Exception e)
+		{
+			
+		}
+		
+		return rList;
+	}
+
 }

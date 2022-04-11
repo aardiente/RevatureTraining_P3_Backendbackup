@@ -111,4 +111,17 @@ public class GroupController
 		
 		return res;
 	}
+	@GetMapping("/GetThreads/{infoId}")
+	public ResponseEntity<List<GroupThread>> getThreadsByInfo(@PathVariable("infoId") int id)
+	{
+		ResponseEntity<List<GroupThread>> res = null;
+		List<GroupThread> gList = service.getGroupThreadsByInfo(id);
+		
+		if(gList == null)
+			res = new ResponseEntity<List<GroupThread>>(HttpStatus.NO_CONTENT);
+		else
+			res = new ResponseEntity<List<GroupThread>>(gList, HttpStatus.OK); 
+		
+		return res;
+	}
 }
