@@ -12,4 +12,6 @@ public interface GroupThreadRepository extends CrudRepository<GroupThread, Integ
 {
 //	@Query("select DISTINCT from groupthread g join g.user_id u where u.email = :email")
 //	List<GroupThread> findByEmail(@Param("email")String email);
+//	@Query("from groupthread t join groupinfo i on t.info_id = i.info_id where t.user_id = i.user_id ")
+//	public List<GroupThread> findAll();
 }

@@ -1,11 +1,16 @@
 package com.revature.revspace.services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.revature.revspace.models.GroupInfo;
 import com.revature.revspace.models.GroupThread;
 import com.revature.revspace.models.User;
 import com.revature.revspace.repositories.GroupInfoRepository;
@@ -35,8 +40,18 @@ public class GroupThreadServiceImpl implements GroupThreadService
 	@Override
 	public GroupThread updateGroupThread(GroupThread obj) 
 	{
+		GroupThread res = null;
 
-		return null;
+		try
+		{
+			infoRepo.save(obj.getGroupInfo());
+			res = repo.save(obj);
+		}catch(Exception e)
+		{
+			
+		}
+
+		return res;
 	}
 
 	@Override
@@ -83,6 +98,90 @@ public class GroupThreadServiceImpl implements GroupThreadService
 		}
 				
 		return gList;
+	}
+
+	@Override
+	public List<GroupInfo> getGroupThreadsByUser(int id) // Slow needs refactoring.
+	{
+		List<GroupThread> gList = null;
+		List<GroupInfo> rList = null;
+
+		try
+		{
+			gList = (List<GroupThread>)repo.findAll();
+			
+			rList = new ArrayList<GroupInfo>();
+			for(GroupThread g : gList)
+			{
+				if(g.getMember().getUserId() == id)
+					rList.add(g.getGroupInfo());
+			}
+		}catch(Exception e)
+		{
+			
+		}
+		
+		return rList;
+	}
+
+	@Override
+	public List<GroupThread> getAllUniqueThreads() 
+	{
+		List<GroupThread> gList = null;
+		List<GroupThread> rList = null;
+	
+		try
+		{
+			gList = (List<GroupThread>)repo.findAll();
+			
+			rList = new ArrayList<GroupThread>();
+			
+			for(GroupThread g : gList)
+			{		
+				if(g.getMember().equals(g.getGroupInfo().getOwner()))
+					rList.add(g);
+			}
+		}catch(Exception e)
+		{
+			
+		}
+		
+		return rList;
+	}
+
+	@Override
+	public List<GroupInfo> getOtherGroups(int id) // really slow lol...
+	{
+		Set<GroupInfo> rList = null;
+	
+		try
+		{
+			List<GroupThread> gList = (List<GroupThread>)repo.findAll();
+			List<GroupInfo> temp = (List<GroupInfo>)infoRepo.findAll();
+			rList = new HashSet<GroupInfo>();
+			
+			// Run through once to get baseline
+			for(GroupInfo g : temp)
+			{
+				if(g.getOwner().getUserId() != id)
+					rList.add(g);
+			}
+			// Run through again and remove groups that user belongs to
+			for(GroupThread g : gList)
+			{
+				if(g.getMember().getUserId() == id)
+					rList.remove(g.getGroupInfo());
+			}
+			
+		}catch(Exception e)
+		{
+			
+		}
+		
+		if(rList != null && !rList.isEmpty())
+			return new ArrayList<GroupInfo>(rList);
+		else
+			return null;
 	}
 
 }
