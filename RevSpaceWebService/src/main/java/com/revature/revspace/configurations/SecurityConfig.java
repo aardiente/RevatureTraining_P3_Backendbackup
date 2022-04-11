@@ -52,6 +52,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 			.authorizeRequests()
 				/* APIS NOT NEEDING AUTHORIZATION MUST BE ADDED HERE */
 				.antMatchers(HttpMethod.POST, "/users").permitAll()
+				.antMatchers(HttpMethod.POST, "/groups").permitAll()
+				.antMatchers(HttpMethod.GET, "/groups/**").permitAll() 
 				/* and authorize any request with valid authentication */
 				.anyRequest().authenticated()
 			.and()
