@@ -109,7 +109,7 @@ public class PostServiceTests {
     void getIDFor(){
         Assertions.assertNotNull(ps.getIDFor(parentPost1));
     }
-
+    /*
     @Test
     void pullPostsListZero(){
         sortedRelatedComments = ps.selectedRelatedComments(parentPost1, allComments);
@@ -134,5 +134,6 @@ public class PostServiceTests {
         expected.add(list);
         Assertions.assertEquals(expected,actual);
     }
+    */
 
 }

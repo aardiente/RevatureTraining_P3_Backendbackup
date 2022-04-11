@@ -152,7 +152,7 @@ public class PostControllerTest {
                 .content(gson.toJson(post)));
         actions.andExpect(MockMvcResultMatchers.status().is(422));
     }
-
+    /*
     @Test
     @WithMockUser(username=TEST_EMAIL)
     void getNextTen() throws Exception
@@ -254,7 +254,7 @@ public class PostControllerTest {
 
 
     }
-
+    */
 
     @Test
     @WithMockUser(username=TEST_EMAIL)
