@@ -19,17 +19,17 @@ import java.util.*;
 public class PostServiceImpl implements PostService {
 
     @Autowired
-    PostRepo postRepo;
+    private PostRepo postRepo;
 
     @Autowired
-    LikeRepo likeRepo;
+    private LikeRepo likeRepo;
     
     @Autowired
-    UserService userRepo;
+    private UserService userRepo;
 
 
     @Override
-    public PostRepo getRepo() {
+    public PostRepo getRepo() { // >_< WHY
         return postRepo;
     }
 
@@ -38,45 +38,64 @@ public class PostServiceImpl implements PostService {
         return value.getPostId();
     }
     
-    public List<List<Post>> pullPostsListFollowing(User currentUser){
+    public List<List<Post>> pullPostsListFollowing(User currentUser)
+    {
     	List<List<Post>> fullPostList = new ArrayList<>();
+    	
     	fullPostList.add(this.postRepo.findByCreatorId(currentUser));
-    	for(User following : currentUser.getFollowing()) {
+    	
+    	for(User following : currentUser.getFollowing()) 
+    	{
     		fullPostList.add(this.postRepo.findByCreatorId(following));
     	}
+    	
     	return fullPostList;
     }
 
-    public List<List<Post>> pullPostsList(int lastPostIdOnThePage, User currentUser){
+    public List<List<Post>> pullPostsList(int lastPostIdOnThePage, User currentUser)
+    {
     	List<Post> fullPostList = new ArrayList<>();
+    	
     	User loggedUser = userRepo.get(currentUser.getUserId());
+    	
     	fullPostList.addAll(this.postRepo.findByCreatorId(currentUser));
-    	for(User following : loggedUser.getFollowing()) {
+    	
+    	for(User following : loggedUser.getFollowing()) 
+    	{
     		fullPostList.addAll(this.postRepo.findByCreatorId(following));
     	}
+    	
         List<Post> sortedCurrentPostsList = fullPostList;
         List<Post> sortedCurrentCommentsList = postRepo.findByCommentTrueOrderByDateAsc();
+        
         List<Like> currentLikesList = (List<Like>) likeRepo.findAll();
+        
         List<Post> responsePostsList = new ArrayList<>();
         List<Post> responseCommentsList = new ArrayList<>();
         List<Post> responseLikesList = new ArrayList<>();
 
-        if (lastPostIdOnThePage == 0) {
-
-            if (10 < sortedCurrentPostsList.size()) {
-
+        if (lastPostIdOnThePage == 0)
+        {
+            if (10 < sortedCurrentPostsList.size()) 
+            {
                 responsePostsList = sortedCurrentPostsList.subList(0, 10);
-
-            } else {
-
+            } 
+            else 
+            {
                 responsePostsList = sortedCurrentPostsList.subList(0, sortedCurrentPostsList.size());
             }
-        } else {
-            for (Post post : sortedCurrentPostsList) {
-                if (post.getPostId() == lastPostIdOnThePage) {
+        } 
+        else 
+        {
+            for (Post post : sortedCurrentPostsList)
+            {
+                if (post.getPostId() == lastPostIdOnThePage) 
+                {
+                	
                     int index = sortedCurrentPostsList.indexOf(post);
 
-                    if((index + 11) < sortedCurrentPostsList.size()){
+                    if((index + 11) < sortedCurrentPostsList.size())
+                    {
                         responsePostsList = sortedCurrentPostsList.subList(index + 1, index + 11);
                     }else {
                         responsePostsList = sortedCurrentPostsList.subList(index + 1, sortedCurrentPostsList.size());
@@ -84,48 +103,69 @@ public class PostServiceImpl implements PostService {
                 }
             }
         }
-        for (Post post : responsePostsList) {
+        for (Post post : responsePostsList) 
+        {
             responseCommentsList.addAll(
                     selectedRelatedComments(post, sortedCurrentCommentsList));
         }
         responseCommentsList.sort(new PostDateComparator());
-        for (Like like : currentLikesList) {
-            for (Post post : responsePostsList) {
-                if (post.getPostId() == like.getPostId().getPostId()) {
+        
+        for (Like like : currentLikesList) 
+        {
+            for (Post post : responsePostsList)
+            {
+                if (post.getPostId() == like.getPostId().getPostId()) 
+                {
                     boolean notInList = true;
-                    for (Post likePost : responseLikesList) {
-                        if (likePost.getPostId() == post.getPostId()) {
+                    
+                    for (Post likePost : responseLikesList) 
+                    {
+                    	
+                        if (likePost.getPostId() == post.getPostId()) 
+                        {
                             likePost.setDate(likePost.getDate() + 1);
                             likePost.setCreatorId(like.getUserId());
+                            
                             notInList = false;
                             break;
                         }
                     }
-                    if (notInList) {
+                    if (notInList) 
+                    {
                         Post p = new Post();
+                        
                         p.setDate(1);
                         p.setPostId(post.getPostId());
                         p.setCreatorId(like.getUserId());
+                        
                         responseLikesList.add(p);
                     }
                 }
             }
-            for (Post comment : responseCommentsList) {
-                if (comment.getPostId() == like.getPostId().getPostId()) {
+            for (Post comment : responseCommentsList) 
+            {
+                if (comment.getPostId() == like.getPostId().getPostId()) 
+                {
                     boolean notInList = true;
-                    for (Post likePost : responseLikesList) {
-                        if (likePost.getPostId() == comment.getPostId()) {
+                    for (Post likePost : responseLikesList)
+                    {
+                        if (likePost.getPostId() == comment.getPostId()) 
+                        {
+                        	
                             likePost.setDate(likePost.getDate() + 1);
                             likePost.setCreatorId(like.getUserId());
                             notInList = false;
                             break;
                         }
                     }
-                    if (notInList) {
+                    if (notInList) 
+                    {
                         Post p = new Post();
+                        
                         p.setDate(1);
                         p.setCreatorId(like.getUserId());
                         p.setPostId(comment.getPostId());
+                        
                         responseLikesList.add(p);
                     }
                 }
@@ -136,22 +176,33 @@ public class PostServiceImpl implements PostService {
         response.add(responsePostsList);
         response.add(responseCommentsList);
         response.add(responseLikesList);
+        
         return response;
     }
     
-    public List<Post> selectedRelatedComments(Post parentsPost, List<Post> allComments) {
+    public List<Post> selectedRelatedComments(Post parentsPost, List<Post> allComments) 
+    {
         List<Post> childrenComments = new ArrayList<>();
-        for (Post comment : allComments) {
-            if (parentsPost == comment.getParentPost()) {
+        
+        for (Post comment : allComments)
+        {
+            if (parentsPost == comment.getParentPost())
+            {
                 childrenComments.add(comment);
             }
         }
+        
         allComments.removeAll(childrenComments);
+        
         List<Post> childrenOfChildren = new ArrayList<>();
-        for (Post parentsComment : childrenComments) {
+        
+        for (Post parentsComment : childrenComments) 
+        {
             childrenOfChildren.addAll(selectedRelatedComments(parentsComment, allComments));
         }
+        
         childrenComments.addAll(childrenOfChildren);
+        
         return childrenComments;
     }
 

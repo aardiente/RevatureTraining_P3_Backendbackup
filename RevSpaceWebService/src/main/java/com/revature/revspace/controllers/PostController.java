@@ -21,9 +21,9 @@ import java.util.List;
 public class PostController
 {
     @Autowired
-    PostService pos;
+    private PostService pos; // USE PRIVATE REEEEEEE
     @Autowired
-    UserService us;
+    private UserService us;
 //    @Autowired
 //    PostService ps;
 
@@ -64,6 +64,7 @@ public class PostController
     public Post getPostById(@PathVariable(name = "id") String id)
     {
         int safeId;
+        
         try
         {
             safeId = Integer.parseInt(id);
@@ -73,6 +74,7 @@ public class PostController
         }
 
         Post foundPost = pos.get(safeId);
+        
         if (null != foundPost)
         {
             return foundPost;
@@ -88,26 +90,31 @@ public class PostController
     public ResponseEntity<List<List<Post>>> getNextTen (@RequestHeader("lastPostIdOnThePage") String lastPostIdOnThePage, @PathVariable(name="id") String userId){
         int postId;
         int uId = 0;
-        try {
+        
+        try 
+        {
             postId = Integer.parseInt(lastPostIdOnThePage);
             uId = Integer.parseInt(userId);
-        } catch (NumberFormatException e){
+            
+        } catch (NumberFormatException e)
+        {
             postId = -1;
             e.printStackTrace();
         }
+        
         User currentUser = us.get(uId);
+        
         List<List<Post>> response = new ArrayList<>();
-        if(postId != -1){
-            response = pos.pullPostsList(postId, currentUser);
-          
-        }else {
+        
+        if(postId != -1)
+            response = pos.pullPostsList(postId, currentUser);  
+        else 
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
-        if(!response.isEmpty()){
+
+        if(!response.isEmpty())
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }else {
+        else
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-        }
     }
 
     //Update Post By ID

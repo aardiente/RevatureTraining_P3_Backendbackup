@@ -37,7 +37,7 @@ public class GroupController
 		if(obj == null)
 			res = new ResponseEntity<String>(HttpStatus.NO_CONTENT);
 		else
-			res = new ResponseEntity<String>( "Adding GroupThread in GroupController |\nResult ->" + service.addGroupThread(obj) , HttpStatus.OK); 
+			res = new ResponseEntity<String>("Adding GroupThread in GroupController |\nResult ->" + service.addGroupThread(obj) , HttpStatus.OK); 
 		
 		return res;
 	}
